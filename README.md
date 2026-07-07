@@ -11,57 +11,72 @@ DataVista 是一个面向**学习者和开发者**的开源数据大屏项目，
 ## ✨ 特性
 
 - 🎯 **从 0 到 1** — 从项目搭建到最终部署，全流程讲解
-- 📊 **丰富图表** — 基于 ECharts，涵盖柱状图、折线图、饼图、地图等常用图表类型
-- 🖥️ **大屏适配** — 支持 16:9 主流大屏分辨率自适应
-- 🎨 **精美 UI** — 深色主题，科技感设计风格
-- 📦 **开箱即用** — 克隆即运行，快速上手
-- 📝 **文档详尽** — 每个模块配有详细注释和说明文档
+- 📊 **丰富图表** — 基于 ECharts 5，涵盖柱状图、折线图、饼图、表格等
+- 🖥️ **大屏适配** — 基于 1920×1080 设计稿，transform:scale 等比缩放
+- 🎨 **深色科技风** — 渐变发光边框、数字翻牌动画、实时时钟
+- 📦 **Mock 内联** — 数据直接在 Store 中，无需后端即可运行
+- 🧩 **模块化架构** — 组件/数据/Hooks/Store 清晰分层
 
 ## 🛠️ 技术栈
 
 | 类别 | 技术 |
 |------|------|
-| 前端框架 | React + TypeScript |
-| 构建工具 | Vite |
-| 可视化库 | ECharts |
-| 样式方案 | CSS Modules |
-| 代码规范 | ESLint + Prettier |
+| 框架 | React 19 + TypeScript 5.6 |
+| 构建 | Vite 6 |
+| 可视化 | ECharts 5（原生 init） |
+| 状态管理 | Zustand 5 |
+| 样式 | CSS Modules + CSS 变量 |
+| 质量 | ESLint + Prettier |
 
 ## 🚀 快速开始
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-username/DataVista.git
+git clone git@github.com:tel3/DataVista.git
 
-# 进入项目目录
+# 进入目录
 cd DataVista
 
-# 安装依赖
+# 安装依赖（Node.js >= 18）
 npm install
 
 # 启动开发服务器
 npm run dev
 ```
 
+浏览器自动打开 `http://localhost:3000`，即可看到完整大屏。
+
 ## 📂 项目结构
 
 ```
 DataVista/
-├── public/               # 静态资源
 ├── src/
-│   ├── assets/           # 资源文件（图片、字体等）
-│   ├── components/       # 公共组件
-│   ├── pages/            # 页面
-│   ├── hooks/            # 自定义 Hooks
-│   ├── utils/            # 工具函数
-│   ├── styles/           # 全局样式
-│   ├── App.tsx           # 根组件
-│   └── main.tsx          # 入口文件
+│   ├── components/          # 通用组件（边框、卡片、数字动画、状态）
+│   ├── data/                # Mock 数据
+│   ├── features/overview/   # 概览大屏（6 个业务图表组件）
+│   ├── hooks/               # useECharts / useScreenScale
+│   ├── stores/              # Zustand 状态管理
+│   ├── styles/              # 全局样式 + CSS 变量
+│   ├── types/               # TypeScript 类型定义
+│   ├── utils/               # logger / chart 主题
+│   ├── App.tsx
+│   └── main.tsx
 ├── index.html
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
+├── LICENSE
 └── README.md
+```
+
+## 📊 页面布局
+
+```
+┌─────────────┬───────────────────┬─────────────┐
+│  4 统计卡片   │   30 天销售趋势     │  品类玫瑰图   │
+├─────────────┴───────────────────┴─────────────┤
+│  区域销售 TOP10 横向柱状  │   最新订单滚动表     │
+└──────────────────────────┴───────────────────┘
 ```
 
 ## 🤝 贡献指南
