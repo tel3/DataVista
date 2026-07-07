@@ -1,27 +1,57 @@
-﻿import { useMemo } from 'react';
-import { useECharts } from '@/hooks/useECharts';
-import { CHART_COLORS } from '@/utils/chartTheme';
-import type { CategoryItem } from '@/types';
-import styles from './CategoryChart.module.css';
+﻿import { useMemo } from "react";
+import { useECharts } from "@/hooks/useECharts";
+import { CHART_COLORS } from "@/utils/chartTheme";
+import type { CategoryItem } from "@/types";
+import styles from "./CategoryChart.module.css";
 
 export default function CategoryChart({ data }: { data: CategoryItem[] }) {
+  const total = useMemo(() => data.reduce((s, d) => s + d.value, 0), [data]);
+
   const option = useMemo(() => ({
-    tooltip: { trigger: 'item' as const },
+    tooltip: {
+      trigger: "item" as const,
+      formatter: (p: { name: string; value: number; percent: number }) =>
+        `${p.name}: ${p.value}万 (${p.percent}%)`,
+    },
     legend: {
-      orient: 'vertical' as const,
-      right: '5%',
-      top: 'center',
-      textStyle: { color: '#8899aa', fontSize: 11 },
+      orient: "vertical" as const,
+      right: "5%",
+      top: "center",
+      textStyle: { color: "#8899aa", fontSize: 11 },
+    },
+    graphic: {
+      type: "text",
+      left: "29%",
+      top: "42%",
+      style: {
+        text: `{name|总销售额}\n{value|${total}万}`,
+        textAlign: "center",
+        rich: {
+          name: {
+            fontSize: 14,
+            fill: "#bcc8d6",
+            lineHeight: 28,
+          },
+          value: {
+            fontSize: 26,
+            fill: "#ffffff",
+            fontWeight: "bold",
+            fontFamily: "Cascadia Code, Fira Code, Consolas, monospace",
+            shadowBlur: 12,
+            shadowColor: "rgba(0, 240, 255, 0.6)",
+          },
+        },
+      },
     },
     series: [{
-      type: 'pie',
-      radius: ['45%', '78%'],
-      center: ['35%', '50%'],
-      roseType: 'area' as const,
+      type: "pie",
+      radius: ["45%", "78%"],
+      center: ["35%", "50%"],
+      roseType: "area" as const,
       itemStyle: { borderRadius: 4 },
       label: { show: false },
       emphasis: {
-        label: { show: true, fontSize: 14, fontWeight: 'bold' },
+        label: { show: true, fontSize: 14, fontWeight: "bold" },
       },
       data: data.map((d, i) => ({
         value: d.value,
@@ -29,7 +59,7 @@ export default function CategoryChart({ data }: { data: CategoryItem[] }) {
         itemStyle: { color: CHART_COLORS[i % CHART_COLORS.length] },
       })),
     }],
-  }), [data]);
+  }), [data, total]);
 
   const ref = useECharts(option);
   return <div ref={ref} className={styles.chart} />;
